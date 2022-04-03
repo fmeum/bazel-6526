@@ -1,0 +1,6 @@
+java_binary(
+    name = "Cat",
+    srcs = ["Cat.java"],
+    main_class = "tools.Cat",
+    visibility = ["//visibility:public"],
+)
