@@ -11,6 +11,9 @@ def _cat_impl(ctx):
         arguments = [args],
         mnemonic = "Cat",
         progress_message = "Writing %{output}",
+        execution_requirements = {
+            "supports-path-remapping": "1",
+        }
     )
     return [DefaultInfo(files = depset([ctx.outputs.out]))]
 
@@ -57,6 +60,9 @@ def _flag_cat_impl(ctx):
         arguments = [args],
         mnemonic = "Cat",
         progress_message = "Writing %{output} with prefix",
+        execution_requirements = {
+            "supports-path-remapping": "1",
+        },
     )
     return [DefaultInfo(files = depset([ctx.outputs.out]))]
 
