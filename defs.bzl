@@ -45,6 +45,8 @@ def _flag_cat_impl(ctx):
     prefix = ctx.attr._flag[FlagProvider].value + ": "
 
     args = ctx.actions.args()
+    args.use_param_file("@%s", use_always = True)
+    args.set_param_file_format("multiline")
     args.add(ctx.outputs.out)
     args.add_all(
         ctx.files.srcs,
