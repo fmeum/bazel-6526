@@ -1,7 +1,7 @@
 def _cat_impl(ctx):
     args = ctx.actions.args()
     args.add(ctx.outputs.out)
-    args.add_all(ctx.files.srcs, format_each = "<%s")
+    args.add_all(depset(ctx.files.srcs), format_each = "<%s")
     args.add(ctx.attr.string + "\n")
 
     ctx.actions.run(
