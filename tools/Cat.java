@@ -10,6 +10,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 class Cat {
+  private static final boolean DEBUG = "1".equals(System.getenv("DEBUG"));
+
   public static void main(String[] args) {
     if (args.length == 1 && args[0].startsWith("@")) {
       Path paramsFile = Paths.get(args[0].substring(1));
@@ -26,7 +28,11 @@ class Cat {
       for (int i = 1; i < args.length; i++) {
         String arg = args[i];
         if (arg.startsWith("<")) {
-          Files.copy(Paths.get(arg.substring(1)), out);
+          Path path = Paths.get(arg.substring(1));
+          Files.copy(path, out);
+          if (DEBUG) {
+            out.write(String.format(" (%s)", path).getBytes(StandardCharsets.UTF_8));
+          }
         } else {
           out.write(arg.getBytes(StandardCharsets.UTF_8));
         }

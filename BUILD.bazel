@@ -1,4 +1,9 @@
-load("//:defs.bzl", "cat", "flag", "flag_cat", "flag_files")
+load("//:defs.bzl", "bool_flag", "cat", "flag", "flag_cat", "flag_files")
+
+bool_flag(
+    name = "dbg",
+    build_setting_default = False,
+)
 
 cat(
     name = "cat",
