@@ -67,7 +67,6 @@ def _flag_cat_impl(ctx):
 
     args = ctx.actions.args()
     args.use_param_file("@%s", use_always = True)
-    args.set_param_file_format("multiline")
     args.add(ctx.outputs.out)
     args.add_all(
         ctx.files.srcs,
@@ -110,7 +109,6 @@ flag_cat = rule(
 )
 
 def _flag_transition_impl(settings, attr):
-    flag = attr.flag
     return {"//:flag": attr.flag}
 
 flag_transition = transition(
