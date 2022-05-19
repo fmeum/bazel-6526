@@ -8,7 +8,7 @@ bool_flag = rule(
     build_setting = config.bool(flag = True),
 )
 
-PATH_REMAPPING = {"supports-path-remapping": ""}
+PATH_MAPPING = {"supports-path-mapping": ""}
 MATERIALIZED_INPUT_PATHS = {"requires-materialized-input-paths": ""}
 
 def _cat_impl(ctx):
@@ -20,7 +20,7 @@ def _cat_impl(ctx):
     args.add(ctx.attr.string + "\n")
 
     execution_requirements = {}
-    execution_requirements.update(PATH_REMAPPING)
+    execution_requirements.update(PATH_MAPPING)
     if is_dbg:
         execution_requirements.update(MATERIALIZED_INPUT_PATHS)
 
@@ -76,7 +76,7 @@ def _flag_cat_impl(ctx):
     args.add(prefix + ctx.attr.string + "\n")
 
     execution_requirements = {}
-    execution_requirements.update(PATH_REMAPPING)
+    execution_requirements.update(PATH_MAPPING)
     if is_dbg:
         execution_requirements.update(MATERIALIZED_INPUT_PATHS)
 
