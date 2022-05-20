@@ -1,13 +1,17 @@
-load("//:defs.bzl", "bool_flag", "cat", "flag", "flag_cat", "flag_files")
+load("//:defs.bzl", "bool_flag", "cat", "flag", "flag_cat", "flag_files", "print_version")
 
 bool_flag(
     name = "dbg",
     build_setting_default = False,
 )
 
+print_version(
+    name = "version",
+)
+
 cat(
     name = "cat",
-    srcs = [],
+    srcs = [":version"],
     out = "cat.txt",
     string = "simple",
 )

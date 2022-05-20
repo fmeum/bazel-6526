@@ -11,6 +11,34 @@ bool_flag = rule(
 PATH_MAPPING = {"supports-path-mapping": ""}
 MATERIALIZED_INPUT_PATHS = {"requires-materialized-input-paths": ""}
 
+def _print_version_impl(ctx):
+    out = ctx.actions.declare_file(ctx.attr.name)
+
+    args = ctx.actions.args()
+    args.add(out)
+
+    ctx.actions.run(
+        outputs = [out],
+        executable = ctx.executable._version,
+        arguments = [args],
+        mnemonic = "Version",
+        progress_message = "Writing %{output}",
+        execution_requirements = PATH_MAPPING,
+    )
+
+    return DefaultInfo(files = depset([out]))
+
+print_version = rule(
+    implementation = _print_version_impl,
+    attrs = {
+        "_version": attr.label(
+            default = "//tools:version",
+            executable = True,
+            cfg = "exec",
+        ),
+    },
+)
+
 def _map_cat_arg(file, _dir_expander, path_mapper):
     return "{}={}".format(file.short_path, path_mapper.path(file))
 
