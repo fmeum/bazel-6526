@@ -1,6 +1,8 @@
 java_binary(
     name = "Cat",
     srcs = ["Cat.java"],
+    data = ["data.txt"],
     main_class = "tools.Cat",
     visibility = ["//visibility:public"],
+    deps = ["@bazel_tools//tools/java/runfiles"],
 )
