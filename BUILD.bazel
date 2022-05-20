@@ -8,8 +8,8 @@ bool_flag(
 cat(
     name = "cat",
     srcs = [],
-    string = "simple",
     out = "cat.txt",
+    string = "simple",
 )
 
 flag(
@@ -20,20 +20,20 @@ flag(
 
 flag_cat(
     name = "flag_cat",
-    srcs = ["cat"],
-    string = "with flag",
+    srcs = [":cat"],
     out = "flag_cat.txt",
+    string = "with flag",
 )
 
 flag_files(
     name = "transition_default",
-    srcs = ["flag_cat"],
+    srcs = [":flag_cat"],
     flag = "default_flag",
 )
 
 flag_files(
     name = "transition_different",
-    srcs = ["flag_cat"],
+    srcs = [":flag_cat"],
     flag = "different_flag",
 )
 
@@ -43,6 +43,6 @@ cat(
         "transition_default",
         "transition_different",
     ],
-    string = "combined",
     out = "combined.txt",
+    string = "combined",
 )

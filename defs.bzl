@@ -1,10 +1,10 @@
 BuildSettingInfo = provider(fields = ["value"])
 
-def _impl(ctx):
+def _bool_flag_impl(ctx):
     return BuildSettingInfo(value = ctx.build_setting_value)
 
 bool_flag = rule(
-    implementation = _impl,
+    implementation = _bool_flag_impl,
     build_setting = config.bool(flag = True),
 )
 
@@ -30,7 +30,7 @@ def _cat_impl(ctx):
     ctx.actions.run(
         outputs = [ctx.outputs.out],
         inputs = ctx.files.srcs,
-        executable = ctx.attr._cat[DefaultInfo].files_to_run,
+        executable = ctx.executable._cat,
         arguments = [args],
         env = {"DEBUG": "1"} if is_dbg else None,
         mnemonic = "Cat",
@@ -40,7 +40,7 @@ def _cat_impl(ctx):
     return [DefaultInfo(files = depset([ctx.outputs.out]))]
 
 cat = rule(
-    _cat_impl,
+    implementation = _cat_impl,
     attrs = {
         "srcs": attr.label_list(allow_files = True),
         "string": attr.string(mandatory = True),
@@ -86,7 +86,7 @@ def _flag_cat_impl(ctx):
     ctx.actions.run(
         outputs = [ctx.outputs.out],
         inputs = ctx.files.srcs,
-        executable = ctx.attr._cat[DefaultInfo].files_to_run,
+        executable = ctx.executable._cat,
         arguments = [args],
         env = {"DEBUG": "1"} if is_dbg else None,
         mnemonic = "Cat",
