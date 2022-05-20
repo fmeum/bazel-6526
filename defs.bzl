@@ -39,8 +39,12 @@ print_version = rule(
     },
 )
 
-def _map_cat_arg(file, _dir_expander, path_mapper):
-    return "{}={}".format(file.short_path, path_mapper.path(file))
+def _map_cat_arg(file, _dir_expander, *path_mapper):
+    if path_mapper:
+        path = path_mapper[0].path(file)
+    else:
+        path = file.path
+    return "{}={}".format(file.short_path, path)
 
 def _cat_impl(ctx):
     is_dbg = ctx.attr._is_dbg[BuildSettingInfo].value
