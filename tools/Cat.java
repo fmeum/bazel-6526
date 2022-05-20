@@ -67,7 +67,17 @@ public final class Cat {
       for (int i = 1; i < args.length; i++) {
         String arg = args[i];
         if (arg.startsWith("<")) {
-          Path path = Paths.get(arg.substring(1));
+          Path path;
+          if (arg.contains("=")) {
+            String[] paths = arg.substring(1).split("=", 2);
+            String shortPath = paths[0];
+            path = Paths.get(paths[1]);
+            if (!DEBUG) {
+              out.write(String.format("(%s) ", shortPath).getBytes(StandardCharsets.UTF_8));
+            }
+          } else {
+            path = Paths.get(arg.substring(1));
+          }
           if (DEBUG) {
             out.write(String.format("(%s) ", path).getBytes(StandardCharsets.UTF_8));
           }

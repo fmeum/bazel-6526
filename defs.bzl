@@ -11,12 +11,15 @@ bool_flag = rule(
 PATH_MAPPING = {"supports-path-mapping": ""}
 MATERIALIZED_INPUT_PATHS = {"requires-materialized-input-paths": ""}
 
+def _map_cat_arg(file, _dir_expander, path_mapper):
+    return "{}={}".format(file.short_path, path_mapper.path(file))
+
 def _cat_impl(ctx):
     is_dbg = ctx.attr._is_dbg[BuildSettingInfo].value
 
     args = ctx.actions.args()
     args.add(ctx.outputs.out)
-    args.add_all(depset(ctx.files.srcs), format_each = "<%s")
+    args.add_all(depset(ctx.files.srcs), map_each = _map_cat_arg, format_each = "<%s")
     args.add(ctx.attr.string + "\n")
 
     execution_requirements = {}
@@ -71,7 +74,7 @@ def _flag_cat_impl(ctx):
     args.add_all(
         ctx.files.srcs,
         before_each = prefix,
-        format_each = "<%s"
+        format_each = "<%s",
     )
     args.add(prefix + ctx.attr.string + "\n")
 
