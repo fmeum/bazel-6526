@@ -39,6 +39,8 @@ print_version = rule(
     },
 )
 
+# The third argument is marked as an optional positional argument for backwards compatibility with versions of Bazel
+# that do not pass in a PathMapper.
 def _map_cat_arg(file, _dir_expander, *path_mapper):
     if path_mapper:
         path = path_mapper[0].path(file)
